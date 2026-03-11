@@ -1,0 +1,30 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Coin -->
+  <defs>
+    <radialGradient id="coinGradient">
+      <stop offset="0%" stop-color="#FFD54F"></stop>
+      <stop offset="70%" stop-color="#FFC107"></stop>
+      <stop offset="100%" stop-color="#FFB300"></stop>
+    </radialGradient>
+  </defs>
+
+  <circle cx="100" cy="100" r="90" fill="url(#coinGradient)" stroke="#E09E00" stroke-width="6"></circle>
+  <circle cx="100" cy="100" r="70" fill="none" stroke="#F9D76E" stroke-width="4"></circle>
+
+  <!-- Duck body -->
+  <ellipse cx="100" cy="115" rx="40" ry="30" fill="#FFD54F"></ellipse>
+
+  <!-- Duck head -->
+  <circle cx="130" cy="95" r="20" fill="#FFD54F"></circle>
+
+  <!-- Smaller beak -->
+  <ellipse cx="152" cy="100" rx="8" ry="5" fill="#FF8F00"></ellipse>
+
+  <!-- Eye -->
+  <circle cx="138" cy="90" r="3" fill="#000"></circle>
+
+  <!-- Wing -->
+  <ellipse cx="90" cy="115" rx="20" ry="15" fill="#FFCA28"></ellipse>
+
+</svg>
