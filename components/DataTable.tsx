@@ -7,19 +7,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { cn } from "@/lib/utils"
 
 import React from 'react'
 
-const DataTable = () => {
+const DataTable = <T,> ({columns, data, rowKey, tableClassName, headerRowClassName,
+  headerCellClassName, bodyRowClassName, bodyCellClassName, headerClassName}: DataTableProps<T>) => {
   return (
-    <Table>
+    <Table className={cn('custom-scrollbar', tableClassName)}>
       <TableCaption>A list of your recent invoices.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">Invoice</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
+      <TableHeader className={headerClassName}>
+        <TableRow className={cn('hover:bg-transparent!', headerRowClassName)}>
+          {columns.map((column, i) => (
+            <TableHead key={i} className={cn('bg-dark-400 text-purple-100 py-4 first:pl-5 last:pr-5 ')}>
+              {column.header}
+            </TableHead>
+          ))}
         </TableRow>
       </TableHeader>
       <TableBody>
