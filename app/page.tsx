@@ -42,9 +42,11 @@ const columns: DataTableColumn<TrendingCoin>[] = [
       )
     }
   },
-  {
-    header: 'price', cellClassName: 'price-cell', cell: (coin) => coin.item.data.price
-  }
+  { 
+    header: 'Price',
+    cellClassName: 'price-cell',
+    cell: (coin) => `$${coin.item.data.price.toLocaleString()}` 
+  },
 ]
 
 const dummyTrendingCoins: TrendingCoin[] = [
