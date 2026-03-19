@@ -15,7 +15,7 @@ const columns: DataTableColumn<TrendingCoin>[] = [
       return (
         <Link href={`/coins/${item.id}`}>
           <Image src={item.large} alt={item.name} width={36} height={36} />
-          <p>{item.name}</p>
+          <p className='font-medium'>{item.name}</p>
         </Link> 
       )
     },
@@ -29,7 +29,7 @@ const columns: DataTableColumn<TrendingCoin>[] = [
       const isTrendingUp = change24h > 0
 
       return (
-        <div className={cn('price-change', isTrendingUp ? 'text-green-500' : 'text-red-500')}>
+        <div className={cn('price-change', isTrendingUp ? 'text-green-400' : 'text-red-400')}>
           <p>
             {isTrendingUp ? (
               <TrendingUp width={16} height={16}/> 
