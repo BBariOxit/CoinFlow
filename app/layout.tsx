@@ -27,10 +27,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body
-        className={`${robotoSans.variable} ${geistMono.variable} antialiased`}
-      >
-      <Header />
+      <body className={`${robotoSans.variable} ${geistMono.variable} antialiased`}>
+        <Header />
         {children}
       </body>
     </html>
