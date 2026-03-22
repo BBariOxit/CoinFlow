@@ -4,6 +4,7 @@ import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 import CandlestickChart from "../CandlestickChart";
+import { CoinOverviewFallback } from "./fallback";
 
 const CoinOverview = async () => {
   let coin;
@@ -11,12 +12,13 @@ const CoinOverview = async () => {
 
   try {
     [coin, coinOHLCData] = await Promise.all([
-      fetcher<CoinDetailsData>("/coins/bitcoin", {
+      await fetcher<CoinDetailsData>("/coins/bitcoin", {
         dex_pair_format: "symbol",
       }),
-      fetcher<OHLCData[]>("/coins/bitcoin/ohlc", {
+      await fetcher<OHLCData[]>("/coins/bitcoin/ohlc", {
         vs_currency: "usd",
         days: 1,
+        precision: "full",
       }),
     ]);
 
