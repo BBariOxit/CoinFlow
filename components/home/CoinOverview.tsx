@@ -4,6 +4,7 @@ import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 import CandlestickChart from "../CandlestickChart";
+import { CoinOverviewFallback } from "./fallback";
 
 const CoinOverview = async () => {
   let coin;
@@ -17,6 +18,7 @@ const CoinOverview = async () => {
       fetcher<OHLCData[]>("/coins/bitcoin/ohlc", {
         vs_currency: "usd",
         days: 1,
+        precision: "full",
       }),
     ]);
 
