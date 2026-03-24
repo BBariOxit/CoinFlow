@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { cn, formatPercentage, formatCurrency } from "@/lib/utils";
 import DataTable from "@/components/DataTable";
+import CoinsPagination from "@/components/CoinsPagination";
 
 const Coins = async ({ searchParams }: NextPageProps) => {
   const coinsData = await fetcher<CoinMarketData[]>("/coins/markets", {
@@ -78,6 +79,8 @@ const Coins = async ({ searchParams }: NextPageProps) => {
           data={coinsData}
           rowKey={(coin) => coin.id}
         />
+
+        <CoinsPagination />
       </div>
     </main>
   );
