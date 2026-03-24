@@ -1,17 +1,26 @@
 import { fetcher } from "@/lib/coingecko.action";
 import Image from "next/image";
 import Link from "next/link";
+import { TrendingDown, TrendingUp } from "lucide-react";
 
 import { cn, formatPercentage, formatCurrency } from "@/lib/utils";
 import DataTable from "@/components/DataTable";
 import CoinsPagination from "@/components/CoinsPagination";
 
 const Coins = async ({ searchParams }: NextPageProps) => {
+  const { page } = await searchParams;
+
+  const pageValue = Array.isArray(page) ? page[0] : page;
+  const currentPage = Math.max(1, Number(pageValue) || 1);
+  const perPage = 20;
+
   const coinsData = await fetcher<CoinMarketData[]>("/coins/markets", {
     vs_currency: "usd",
     order: "market_cap_desc",
     sparkline: "false",
     price_change_percentage: "24h",
+    page: currentPage,
+    per_page: perPage,
   });
 
   const columns: DataTableColumn<CoinMarketData>[] = [
@@ -51,11 +60,15 @@ const Coins = async ({ searchParams }: NextPageProps) => {
         return (
           <span
             className={cn("change-value", {
-              "text-green-600": isTrendingUp,
-              "text-red-500": !isTrendingUp,
+              "text-green-400": isTrendingUp,
+              "text-red-400": !isTrendingUp,
             })}
           >
-            {isTrendingUp}
+            {isTrendingUp ? (
+              <TrendingUp width={16} height={16} />
+            ) : (
+              <TrendingDown width={16} height={16} />
+            )}
             {formatPercentage(Math.abs(coin.price_change_percentage_24h))}
           </span>
         );
@@ -67,6 +80,9 @@ const Coins = async ({ searchParams }: NextPageProps) => {
       cell: (coin) => formatCurrency(coin.market_cap),
     },
   ];
+
+  const hasMorePages = coinsData.length === perPage;
+  const estimatedTotalPages = currentPage >= 100 ? Math.ceil(currentPage / 100) * 100 + 100 : 100;
 
   return (
     <main id="coins-page">
@@ -80,7 +96,11 @@ const Coins = async ({ searchParams }: NextPageProps) => {
           rowKey={(coin) => coin.id}
         />
 
-        <CoinsPagination />
+        <CoinsPagination
+          currentPage={currentPage}
+          totalPages={estimatedTotalPages}
+          hasMorePages={hasMorePages}
+        />
       </div>
     </main>
   );
