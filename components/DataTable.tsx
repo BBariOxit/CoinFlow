@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -24,7 +23,6 @@ const DataTable = <T,>({
 }: DataTableProps<T>) => {
   return (
     <Table className={cn("custom-scrollbar", tableClassName)}>
-      <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader className={headerClassName}>
         <TableRow className={cn("hover:bg-transparent!", headerRowClassName)}>
           {columns.map((column, i) => (
