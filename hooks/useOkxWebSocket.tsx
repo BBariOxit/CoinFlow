@@ -22,19 +22,33 @@ const COIN_ID_TO_SYMBOL: Record<string, string> = {
   uniswap: "UNI",
 };
 
+const QUOTE_CURRENCIES = new Set(["USDT", "USDC", "USD", "BTC", "ETH", "EUR"]);
+
 const toNumber = (value: unknown, fallback = 0): number => {
   const num = Number(value);
   return Number.isFinite(num) ? num : fallback;
 };
 
-const toInstId = (coinId: string, poolId: string): string => {
-  if (poolId && poolId.includes("-")) {
-    return poolId.toUpperCase();
+const toExplicitInstId = (value: string): string | null => {
+  if (!value) return null;
+
+  const parts = value.toUpperCase().split("-");
+  if (parts.length !== 2) return null;
+
+  const [base, quote] = parts;
+  if (!base || !quote || !QUOTE_CURRENCIES.has(quote)) {
+    return null;
   }
 
-  if (coinId && coinId.includes("-")) {
-    return coinId.toUpperCase();
-  }
+  return `${base}-${quote}`;
+};
+
+const toInstId = (coinId: string, poolId: string): string => {
+  const poolInstId = toExplicitInstId(poolId);
+  if (poolInstId) return poolInstId;
+
+  const coinInstId = toExplicitInstId(coinId);
+  if (coinInstId) return coinInstId;
 
   const mappedSymbol = COIN_ID_TO_SYMBOL[coinId?.toLowerCase()];
   if (mappedSymbol) {
