@@ -1,4 +1,5 @@
-import { fetcher } from "@/lib/coingecko.action";
+import LiveDataWrapper from "@/components/LiveDataWrapper";
+import { fetcher, getPools } from "@/lib/coingecko.action";
 import { formatCurrency } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
@@ -14,7 +15,7 @@ const page = async ({ params }: NextPageProps) => {
     fetcher<OHLCData>(`/coins/${id}/ohlc`, {
       vs_currency: "usd",
       days: 1,
-      interval: "hourly",
+      // interval: "hourly",
       precision: "full",
     }),
   ]);
@@ -25,6 +26,8 @@ const page = async ({ params }: NextPageProps) => {
 
   const netWork = platform?.geckoterminal_url.split("/")[3] || null;
   const contractAddress = platform?.contract_address || null;
+
+  const pool = await getPools(id, netWork, contractAddress);
 
   const coinDetails = [
     {
@@ -62,15 +65,9 @@ const page = async ({ params }: NextPageProps) => {
   return (
     <main id="coin-details-age">
       <section className="primary">
-        <h1 className="text-3xl font-bold">
-          Coin <strong>{id}</strong>
-        </h1>
-
-        <p>Trend Overview</p>
-
-        <p>Recent Trades</p>
-
-        <p>Exchange Listings</p>
+        <LiveDataWrapper coinId={id} poolId={pool.id} coin={coinData} coinOHLCData={coinOHLCData}>
+          <h4>Exchange Listings</h4>
+        </LiveDataWrapper>
       </section>
 
       <section className="secondary">
