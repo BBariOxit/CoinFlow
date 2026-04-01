@@ -1,5 +1,6 @@
 import Converter from "@/components/Converter";
 import LiveDataWrapper from "@/components/LiveDataWrapper";
+import TopGainersLosers from "@/components/TopGainersLosers";
 import { fetcher, getPools } from "@/lib/coingecko.action";
 import { formatCurrency } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
@@ -8,7 +9,7 @@ import Link from "next/link";
 const page = async ({ params }: NextPageProps) => {
   const { id } = await params;
 
-  const [coinData, coinOHLCData] = await Promise.all([
+  const [coinData, coinOHLCData, marketData] = await Promise.all([
     fetcher<CoinDetailsData>(`/coins/${id}`, {
       dex_pair_format: "contract_address",
     }),
@@ -18,6 +19,15 @@ const page = async ({ params }: NextPageProps) => {
       days: 1,
       // interval: "hourly",
       precision: "full",
+    }),
+
+    fetcher<CoinMarketData[]>("/coins/markets", {
+      vs_currency: "usd",
+      order: "market_cap_desc",
+      per_page: 250,
+      page: 1,
+      sparkline: false,
+      price_change_percentage: "24h",
     }),
   ]);
 
@@ -30,6 +40,40 @@ const page = async ({ params }: NextPageProps) => {
   const contractAddress = platform?.contract_address || null;
 
   const pool = await getPools(id, netWork, contractAddress);
+
+  // Compute top gainers and losers from market data
+  const validCoins = marketData.filter(
+    (coin) =>
+      coin.price_change_percentage_24h !== null &&
+      coin.price_change_percentage_24h !== undefined &&
+      coin.current_price !== null &&
+      coin.image
+  );
+
+  const sorted = [...validCoins].sort(
+    (a, b) => b.price_change_percentage_24h - a.price_change_percentage_24h
+  );
+
+  const topGainers: TopGainersLosers[] = sorted.slice(0, 4).map((coin) => ({
+    id: coin.id,
+    name: coin.name,
+    symbol: coin.symbol,
+    image: coin.image,
+    price: coin.current_price,
+    priceChangePercentage24h: coin.price_change_percentage_24h,
+  }));
+
+  const topLosers: TopGainersLosers[] = sorted
+    .slice(-4)
+    .reverse()
+    .map((coin) => ({
+      id: coin.id,
+      name: coin.name,
+      symbol: coin.symbol,
+      image: coin.image,
+      price: coin.current_price,
+      priceChangePercentage24h: coin.price_change_percentage_24h,
+    }));
 
   const coinDetails = [
     {
@@ -102,7 +146,7 @@ const page = async ({ params }: NextPageProps) => {
           </ul>
         </div>
 
-        <p>Top Gainers and Losers</p>
+        <TopGainersLosers initialGainers={topGainers} initialLosers={topLosers} />
       </section>
     </main>
   );
