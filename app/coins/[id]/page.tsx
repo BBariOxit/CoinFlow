@@ -1,4 +1,5 @@
 import Converter from "@/components/Converter";
+import ExchangeListing from "@/components/ExchangeListing";
 import LiveDataWrapper from "@/components/LiveDataWrapper";
 import TopGainersLosers from "@/components/TopGainersLosers";
 import { fetcher, getPools } from "@/lib/coingecko.action";
@@ -112,7 +113,7 @@ const page = async ({ params }: NextPageProps) => {
     <main id="coin-details-page">
       <section className="primary">
         <LiveDataWrapper coinId={id} poolId={pool.id} coin={coinData} coinOHLCData={coinOHLCData}>
-          <h4>Exchange Listings</h4>
+          <ExchangeListing tickers={coinData.tickers} />
         </LiveDataWrapper>
       </section>
 
