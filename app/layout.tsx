@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import { fetcher } from "@/lib/coingecko.action";
 
 const robotoSans = Roboto({
   variable: "--font-roboto-sans",
@@ -20,15 +21,28 @@ export const metadata: Metadata = {
   description: "Crypto Screener App with a built-in High-Frequency Terminal & Dashboard",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let trendingCoins: TrendingCoin[] = [];
+
+  try {
+    const trendingData = await fetcher<{ coins: TrendingCoin[] }>(
+      "/search/trending",
+      undefined,
+      300
+    );
+    trendingCoins = trendingData.coins ?? [];
+  } catch (error) {
+    console.error("Failed to load header trending coins", error);
+  }
+
   return (
     <html lang="en" className="dark">
       <body className={`${robotoSans.variable} ${geistMono.variable} antialiased`}>
-        <Header />
+        <Header trendingCoins={trendingCoins} />
         {children}
       </body>
     </html>

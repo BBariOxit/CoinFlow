@@ -219,7 +219,7 @@
     }
 
     .config-button-active {
-      @apply rounded-sm px-2.5 py-1.5 border-0 cursor-pointer text-sm text-gray-900 bg-green-500;
+      @apply rounded-sm px-2.5 py-1.5 border-0 cursor-pointer text-sm text-gray-900 bg-green-400;
     }
 
     .chart {
@@ -522,7 +522,7 @@
       @apply bg-dark-500 rounded-xl overflow-hidden mt-5;
 
       .exchange-name {
-        @apply text-green-500 font-bold;
+        @apply text-green-400 font-bold;
 
         a {
           @apply absolute inset-0 z-10;
@@ -564,7 +564,7 @@
           }
 
           .link {
-            @apply flex items-center text-green-500 gap-1;
+            @apply flex items-center text-green-400 gap-1;
           }
         }
       }
@@ -631,13 +631,24 @@
     .kbd {
       @apply pointer-events-none hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100;
     }
+  }
 
-    .dialog {
-      @apply bg-dark-400! max-w-sm sm:max-w-md md:max-w-2xl mx-auto;
+  .dialog[data-slot="dialog-content"] {
+    @apply bg-dark-400! mx-auto;
+    width: min(500px, calc(100vw - 2rem)) !important;
+    max-width: min(500px, calc(100vw - 2rem)) !important;
+    border-radius: 0 !important;
+
+    [data-slot="command"] {
+      border-radius: 8 !important;
     }
 
     .cmd-input {
       @apply bg-dark-500!;
+
+      [data-slot="input-group"] {
+        border-radius: 8 !important;
+      }
 
       input {
         @apply placeholder:text-purple-100!;
@@ -645,7 +656,8 @@
     }
 
     .list {
-      @apply bg-dark-500 max-h-100;
+      @apply bg-dark-500 p-0;
+      max-height: min(70vh, 40rem);
     }
 
     .heading {
@@ -653,31 +665,47 @@
     }
 
     .group {
-      @apply bg-dark-500 text-purple-100;
+      @apply bg-dark-500 text-purple-100 px-0 pb-1;
     }
-  }
 
-  .dialog {
     .empty {
       @apply py-6 text-center text-sm text-gray-400;
     }
 
     .search-item {
-      @apply grid grid-cols-4 gap-4 items-center justify-between data-[selected=true]:bg-dark-400 transition-all !cursor-pointer hover:bg-dark-400 py-3;
+      @apply w-full gap-4 items-center rounded-none px-4 py-3 transition-all cursor-pointer!;
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) auto;
+      min-height: 4.5rem !important;
+      border-radius: 8 !important;
+      background-color: #171717 !important;
+
+      &:hover,
+      &[data-selected="true"] {
+        background-color: #262626 !important;
+      }
+
+      > svg:last-child {
+        @apply hidden;
+      }
 
       .coin-info {
-        @apply flex gap-4 items-center col-span-2;
+        @apply flex gap-3 items-center min-w-0;
 
         img {
           @apply size-9 rounded-full;
         }
 
         div {
-          @apply flex flex-col;
+          @apply flex flex-col min-w-0;
+
+          p:first-child {
+            @apply truncate;
+          }
         }
 
         .coin-symbol {
-          @apply text-sm text-purple-100 uppercase;
+          @apply text-sm text-purple-100/90 uppercase;
         }
       }
 
@@ -686,7 +714,9 @@
       }
 
       .coin-change {
-        @apply flex gap-1 text-sm lg:text-base items-center font-medium;
+        @apply ml-auto flex gap-1 text-sm lg:text-base items-center font-medium justify-end text-right;
+        justify-self: end;
+        white-space: nowrap;
       }
     }
   }
@@ -726,7 +756,7 @@
       }
 
       .icon {
-        @apply size-8 z-20 bg-dark-400 rounded-full p-2 text-green-500;
+        @apply size-8 z-20 bg-dark-400 rounded-full p-2 text-green-400;
       }
     }
 
@@ -872,7 +902,7 @@
       }
 
       .page-link-active {
-        @apply bg-green-500! text-dark-900 font-semibold;
+        @apply bg-green-400! text-dark-900 font-semibold;
       }
     }
   }
