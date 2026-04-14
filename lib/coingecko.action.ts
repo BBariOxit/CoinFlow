@@ -70,3 +70,65 @@ export async function getPools(
     return fallback;
   }
 }
+
+interface CoinGeckoSearchCoin {
+  id: string;
+  name: string;
+  symbol: string;
+  market_cap_rank: number | null;
+  thumb: string;
+  large: string;
+}
+
+interface CoinGeckoSearchResponse {
+  coins?: CoinGeckoSearchCoin[];
+}
+
+interface CoinMarketSearchResponse {
+  id: string;
+  current_price?: number;
+  price_change_percentage_24h?: number;
+}
+
+export async function searchCoins(query: string): Promise<SearchCoin[]> {
+  const trimmedQuery = query.trim();
+
+  if (!trimmedQuery) return [];
+
+  const searchData = await fetcher<CoinGeckoSearchResponse>("search", {
+    query: trimmedQuery,
+  });
+
+  const topCoins = (searchData.coins ?? []).slice(0, 10);
+
+  if (topCoins.length === 0) return [];
+
+  const ids = topCoins.map((coin) => coin.id).join(",");
+
+  const marketData = await fetcher<CoinMarketSearchResponse[]>("coins/markets", {
+    vs_currency: "usd",
+    ids,
+    per_page: 10,
+    page: 1,
+    sparkline: false,
+  });
+
+  const marketById = new Map(marketData.map((coin) => [coin.id, coin]));
+
+  return topCoins.map((coin) => {
+    const market = marketById.get(coin.id);
+
+    return {
+      id: coin.id,
+      name: coin.name,
+      symbol: coin.symbol,
+      market_cap_rank: coin.market_cap_rank,
+      thumb: coin.thumb,
+      large: coin.large,
+      data: {
+        price: market?.current_price,
+        price_change_percentage_24h: market?.price_change_percentage_24h ?? 0,
+      },
+    };
+  });
+}
