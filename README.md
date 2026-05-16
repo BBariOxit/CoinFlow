@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+	<img src="public/logo.svg" alt="CoinFlow" width="96" />
+</p>
+
+<h1 align="center">CoinFlow</h1>
+
+<p align="center">
+	A real-time crypto dashboard for tracking coins, viewing charts, and exploring market data.
+</p>
+
+<p align="center">
+	<a href="https://coinflow.cobweb.id.vn/"><strong>Live Demo</strong></a>
+</p>
+
+<p align="center">
+	<img alt="Next.js" src="https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs" />
+	<img alt="React" src="https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white" />
+	<img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white" />
+	<img alt="TailwindCSS" src="https://img.shields.io/badge/TailwindCSS-4-38BDF8?logo=tailwindcss&logoColor=white" />
+</p>
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript
+- **UI:** Tailwind CSS v4 + shadcn/ui (Radix UI)
+- **Data fetching:** SWR
+- **Charts:** lightweight-charts (candlestick)
+- **APIs:** CoinGecko REST API
+- **Realtime:** OKX Public WebSocket
+
+## Key Features
+
+- Coin list with key metrics (price, 24h change, market cap)
+- Coin detail page with candlestick chart + market info
+- Realtime ticker / trades updates via WebSocket
+- Quick search modal with keyboard shortcut
+- Simple converter widget
+
+## Screenshots / GIF
+
+**Home**
+
+![CoinFlow Home](public/screenshot-home.png)
+
+**All Coins**
+
+![CoinFlow All Coins](public/screenshot-all-coins.png)
+
+**Coin Details**
+
+![CoinFlow Coin Details](public/screenshot-coin-details.png)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18.18+ (recommended)
+- A CoinGecko API key
+
+### Installation
 
 ```bash
+# 1) Clone
+git clone <YOUR_REPO_URL>
+
+# 2) Install dependencies
+npm install
+
+# 3) Create env file
+cp .env.example .env.local
+
+# 4) Start dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+On Windows (PowerShell):
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```powershell
+Copy-Item .env.example .env.local
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open http://localhost:3000
 
-## Learn More
+> Optional (faster dev): `npm run dev -- --turbo`
 
-To learn more about Next.js, take a look at the following resources:
+## Environment Variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project expects the following variables (see `.env.example`):
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Name                 | Required | Description                               |
+| -------------------- | -------- | ----------------------------------------- |
+| `COINGECKO_BASE_URL` | Yes      | CoinGecko REST base URL                   |
+| `COINGECKO_API_KEY`  | Yes      | CoinGecko API key used in server requests |
 
-## Deploy on Vercel
+## Scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `npm run dev` – start development server
+- `npm run build` – production build
+- `npm run start` – run production server
+- `npm run lint` – lint
+- `npm run format` – format with Prettier
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contributing
+
+Issues and pull requests are welcome.
+
+- Fork the repo
+- Create a feature branch
+- Open a PR with a clear description and screenshots if UI changes
+
+## Acknowledgements
+
+- Data powered by CoinGecko
+- Realtime market streams from OKX Public WebSocket
