@@ -124,7 +124,7 @@ const CandlestickChart = ({
 
     const dataChanged = prevOhlcDataLength.current !== ohlcData.length;
 
-    if (dataChanged || mode === "hitorical") {
+    if (dataChanged || mode === "historical") {
       chartRef.current?.timeScale().fitContent();
       prevOhlcDataLength.current = ohlcData.length;
     }
