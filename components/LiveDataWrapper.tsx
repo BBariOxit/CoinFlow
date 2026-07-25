@@ -56,6 +56,7 @@ const LiveDataWrapper = ({ children, coinId, poolId, coin, coinOHLCData, renderS
   ];
 
   return (
+    <>
     <section id="live-data-wrapper" className="primary">
       <CoinHeader
         name={coin.name}
@@ -101,7 +102,8 @@ const LiveDataWrapper = ({ children, coinId, poolId, coin, coinOHLCData, renderS
     </section>
 
     {renderSecondary && renderSecondary(price?.usd)}
-  </>);
+    </>
+  );
 };
 
 export default LiveDataWrapper;
