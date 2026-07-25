@@ -229,7 +229,7 @@ interface LiveDataProps {
   coin: CoinDetailsData;
   coinOHLCData?: OHLCData[];
   children?: React.ReactNode;
-  renderSecondary?: (livePriceUsd: number | undefined) => React.ReactNode;
+  secondaryContent?: React.ReactNode;
 }
 
 interface LiveCoinHeaderProps {

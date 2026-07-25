@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Input } from "./ui/input";
 import Image from "next/image";
 import { formatCurrency } from "@/lib/utils";
+import { useLivePrice } from "@/hooks/useLivePrice";
 
 import {
   Select,
@@ -14,7 +15,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const Converter = ({ symbol, icon, priceList, livePriceUsd }: ConverterProps) => {
+const Converter = ({ symbol, icon, priceList }: ConverterProps) => {
+  const livePriceUsd = useLivePrice();
   const [currency, setCurrency] = useState("usd");
   const [amount, setAmount] = useState("10");
 

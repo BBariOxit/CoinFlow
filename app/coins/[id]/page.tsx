@@ -116,13 +116,12 @@ const page = async ({ params }: NextPageProps) => {
         poolId={pool.id}
         coin={coinData}
         coinOHLCData={coinOHLCData}
-        renderSecondary={(livePriceUsd) => (
+        secondaryContent={(
           <section className="secondary">
             <Converter
               symbol={coinData.symbol}
               icon={coinData.image.small}
               priceList={coinData.market_data.current_price}
-              livePriceUsd={livePriceUsd}
             />
 
             <div className="details">
