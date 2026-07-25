@@ -634,55 +634,55 @@
   }
 
   .dialog[data-slot="dialog-content"] {
-    @apply bg-dark-400! mx-auto;
+    @apply bg-[#0b1116]! mx-auto border border-white/10! shadow-2xl;
     width: min(500px, calc(100vw - 2rem)) !important;
     max-width: min(500px, calc(100vw - 2rem)) !important;
-    border-radius: 0 !important;
+    border-radius: 16px !important;
 
     [data-slot="command"] {
-      border-radius: 8 !important;
+      border-radius: 16px !important;
+      @apply bg-transparent;
     }
 
     .cmd-input {
-      @apply bg-dark-500!;
+      @apply bg-transparent border-b border-white/5 p-1;
 
       [data-slot="input-group"] {
-        border-radius: 8 !important;
+        @apply border-0 shadow-none bg-transparent;
       }
 
       input {
-        @apply placeholder:text-purple-100!;
+        @apply placeholder:text-gray-500! text-base;
       }
     }
 
     .list {
-      @apply bg-dark-500 p-0;
-      max-height: min(70vh, 40rem);
+      @apply bg-transparent p-2;
+      max-height: min(60vh, 30rem);
     }
 
     .heading {
-      @apply flex items-center gap-2 text-purple-100;
+      @apply flex items-center gap-2 text-gray-500 text-xs font-semibold uppercase tracking-wider px-2 py-3;
     }
 
     .group {
-      @apply bg-dark-500 text-purple-100 px-0 pb-1;
+      @apply bg-transparent text-purple-100 px-0 pb-1;
     }
 
     .empty {
-      @apply py-6 text-center text-sm text-gray-400;
+      @apply py-10 text-center text-sm text-gray-500;
     }
 
     .search-item {
-      @apply w-full gap-4 items-center rounded-none px-4 py-3 transition-all cursor-pointer!;
+      @apply w-full gap-4 items-center px-4 py-3 transition-colors duration-200 cursor-pointer bg-transparent! border-0;
       display: grid !important;
       grid-template-columns: minmax(0, 1fr) auto;
-      min-height: 4.5rem !important;
-      border-radius: 8 !important;
-      background-color: #171717 !important;
+      min-height: 4rem !important;
+      border-radius: 10px !important;
 
       &:hover,
       &[data-selected="true"] {
-        background-color: #262626 !important;
+        @apply bg-white/5!;
       }
 
       > svg:last-child {
@@ -693,19 +693,19 @@
         @apply flex gap-3 items-center min-w-0;
 
         img {
-          @apply size-9 rounded-full;
+          @apply size-9 rounded-full ring-1 ring-white/10;
         }
 
         div {
-          @apply flex flex-col min-w-0;
+          @apply flex flex-col min-w-0 justify-center;
 
           p:first-child {
-            @apply truncate;
+            @apply truncate text-gray-200 font-semibold;
           }
         }
 
         .coin-symbol {
-          @apply text-sm text-purple-100/90 uppercase;
+          @apply text-xs text-gray-500 font-medium uppercase mt-0.5;
         }
       }
 
@@ -714,7 +714,7 @@
       }
 
       .coin-change {
-        @apply ml-auto flex gap-1 text-sm lg:text-base items-center font-medium justify-end text-right;
+        @apply ml-auto flex gap-1.5 text-sm items-center font-medium justify-end text-right;
         justify-self: end;
         white-space: nowrap;
       }
