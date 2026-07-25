@@ -14,11 +14,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const Converter = ({ symbol, icon, priceList }: ConverterProps) => {
+const Converter = ({ symbol, icon, priceList, livePriceUsd }: ConverterProps) => {
   const [currency, setCurrency] = useState("usd");
   const [amount, setAmount] = useState("10");
 
-  const convertedPrice = (parseFloat(amount) || 0) * (priceList[currency] || 0);
+  const getPrice = (curr: string): number => {
+    const staticPrice = priceList[curr] || 0;
+    if (!livePriceUsd || !priceList.usd) return staticPrice;
+
+    // Scale all currency prices proportionally using the live USD price
+    const ratio = livePriceUsd / priceList.usd;
+    return staticPrice * ratio;
+  };
+
+  const convertedPrice = (parseFloat(amount) || 0) * getPrice(currency);
 
   return (
     <div id="converter">

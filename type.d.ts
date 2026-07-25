@@ -21,6 +21,7 @@ interface ConverterProps {
   symbol: string;
   icon: string;
   priceList: Record<string, number>;
+  livePriceUsd?: number;
 }
 
 interface Ticker {
@@ -228,6 +229,7 @@ interface LiveDataProps {
   coin: CoinDetailsData;
   coinOHLCData?: OHLCData[];
   children?: React.ReactNode;
+  renderSecondary?: (livePriceUsd: number | undefined) => React.ReactNode;
 }
 
 interface LiveCoinHeaderProps {

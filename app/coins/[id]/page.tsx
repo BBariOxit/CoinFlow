@@ -111,44 +111,49 @@ const page = async ({ params }: NextPageProps) => {
 
   return (
     <main id="coin-details-page">
-      <section className="primary">
-        <LiveDataWrapper coinId={id} poolId={pool.id} coin={coinData} coinOHLCData={coinOHLCData}>
-          <ExchangeListing tickers={coinData.tickers} />
-        </LiveDataWrapper>
-      </section>
+      <LiveDataWrapper
+        coinId={id}
+        poolId={pool.id}
+        coin={coinData}
+        coinOHLCData={coinOHLCData}
+        renderSecondary={(livePriceUsd) => (
+          <section className="secondary">
+            <Converter
+              symbol={coinData.symbol}
+              icon={coinData.image.small}
+              priceList={coinData.market_data.current_price}
+              livePriceUsd={livePriceUsd}
+            />
 
-      <section className="secondary">
-        <Converter
-          symbol={coinData.symbol}
-          icon={coinData.image.small}
-          priceList={coinData.market_data.current_price}
-        />
+            <div className="details">
+              <h4>Coin Details</h4>
 
-        <div className="details">
-          <h4>Coin Details</h4>
+              <ul className="details-grid">
+                {coinDetails.map(({ label, value, link, linkText }, index) => (
+                  <li key={index}>
+                    <p className={label}>{label}</p>
 
-          <ul className="details-grid">
-            {coinDetails.map(({ label, value, link, linkText }, index) => (
-              <li key={index}>
-                <p className={label}>{label}</p>
+                    {link ? (
+                      <div className="link">
+                        <Link href={link} target="_blank">
+                          {linkText || label}
+                        </Link>
+                        <ArrowUpRight size={16} />
+                      </div>
+                    ) : (
+                      <p className="text-base font-medium">{value}</p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-                {link ? (
-                  <div className="link">
-                    <Link href={link} target="_blank">
-                      {linkText || label}
-                    </Link>
-                    <ArrowUpRight size={16} />
-                  </div>
-                ) : (
-                  <p className="text-base font-medium">{value}</p>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <TopGainersLosers initialGainers={topGainers} initialLosers={topLosers} />
-      </section>
+            <TopGainersLosers initialGainers={topGainers} initialLosers={topLosers} />
+          </section>
+        )}
+      >
+        <ExchangeListing tickers={coinData.tickers} />
+      </LiveDataWrapper>
     </main>
   );
 };
