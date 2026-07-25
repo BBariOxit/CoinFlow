@@ -117,7 +117,7 @@ const page = async ({ params }: NextPageProps) => {
         coin={coinData}
         coinOHLCData={coinOHLCData}
         secondaryContent={(
-          <section className="secondary">
+          <section key="secondary" className="secondary">
             <Converter
               symbol={coinData.symbol}
               icon={coinData.image.small}
