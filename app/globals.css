@@ -648,7 +648,7 @@
       @apply bg-transparent border-b border-white/5 p-1;
 
       [data-slot="input-group"] {
-        @apply border-0 shadow-none bg-transparent;
+        @apply h-12! border-0 shadow-none bg-transparent;
       }
 
       input {
