@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import DataTable from "@/components/DataTable";
 import { formatCurrency, timeAgo } from "@/lib/utils";
@@ -8,6 +11,12 @@ interface ExchangeListingProps {
 }
 
 const ExchangeListing = ({ tickers }: ExchangeListingProps) => {
+  // Force re-render every 30s to keep timeAgo values fresh
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => setTick((t) => t + 1), 30_000);
+    return () => clearInterval(interval);
+  }, []);
   const exchangeColumns: DataTableColumn<Ticker>[] = [
     {
       header: "Exchange",

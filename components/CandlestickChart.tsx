@@ -63,21 +63,12 @@ const CandlestickChart = ({
     const container = chartCointainerRef.current;
     if (!container) return;
 
-    const showTime = ["daily", "weekly", "monthly"].includes(period);
-
     const chart = createChart(container, {
-      ...getChartConfig(height, showTime),
+      ...getChartConfig(height, true),
       width: container.clientWidth,
     });
 
     const series = chart.addSeries(CandlestickSeries, getCandlestickConfig());
-
-    const convertedToSeconds = ohlcData.map(
-      (item) => [Math.floor(item[0] / 1000), item[1], item[2], item[3], item[4]] as OHLCData
-    );
-
-    // series.setData(convertOHLCData(convertedToSeconds));
-    // chart.timeScale().fitContent();
 
     chartRef.current = chart;
     candleSeriesRef.current = series;
@@ -94,10 +85,16 @@ const CandlestickChart = ({
       chartRef.current = null;
       candleSeriesRef.current = null;
     };
-  }, [height, period]);
+  }, [height]);
 
   useEffect(() => {
-    if (!candleSeriesRef.current) return;
+    if (!candleSeriesRef.current || !chartRef.current) return;
+
+    const showTime = ["daily", "weekly", "monthly"].includes(period);
+    chartRef.current.applyOptions({
+      timeScale: { timeVisible: showTime },
+    });
+
     const convertedToSeconds = ohlcData.map(
       (item) => [Math.floor(item[0] / 1000), item[1], item[2], item[3], item[4]] as OHLCData
     );
@@ -124,7 +121,7 @@ const CandlestickChart = ({
 
     const dataChanged = prevOhlcDataLength.current !== ohlcData.length;
 
-    if (dataChanged || mode === "hitorical") {
+    if (dataChanged || mode === "historical") {
       chartRef.current?.timeScale().fitContent();
       prevOhlcDataLength.current = ohlcData.length;
     }

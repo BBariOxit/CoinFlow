@@ -22,6 +22,42 @@ const COIN_ID_TO_SYMBOL: Record<string, string> = {
   aptos: "APT",
   sui: "SUI",
   uniswap: "UNI",
+  binancecoin: "BNB",
+  "usd-coin": "USDC",
+  stellar: "XLM",
+  hedera: "HBAR",
+  monero: "XMR",
+  "matic-network": "MATIC",
+  polygon: "POL",
+  filecoin: "FIL",
+  cosmos: "ATOM",
+  "internet-computer": "ICP",
+  render: "RENDER",
+  near: "NEAR",
+  algorand: "ALGO",
+  pepe: "PEPE",
+  aave: "AAVE",
+  "the-graph": "GRT",
+  arbitrum: "ARB",
+  optimism: "OP",
+  injective: "INJ",
+  sei: "SEI",
+  "fetch-ai": "FET",
+  mantle: "MNT",
+  maker: "MKR",
+  ondo: "ONDO",
+  kaspa: "KAS",
+  celestia: "TIA",
+  worldcoin: "WLD",
+  bonk: "BONK",
+  floki: "FLOKI",
+  "lido-dao": "LDO",
+  sandbox: "SAND",
+  decentraland: "MANA",
+  axie: "AXS",
+  eos: "EOS",
+  "bitcoin-cash": "BCH",
+  "ethereum-classic": "ETC",
 };
 
 const QUOTE_CURRENCIES = new Set(["USDT", "USDC", "USD", "BTC", "ETH", "EUR"]);
@@ -121,10 +157,6 @@ export const useOkxWebSocket = ({
         if (unmounted) return;
 
         setIsConnected(true);
-
-        setPrice(null);
-        setTrades([]);
-        setOhlcv(null);
 
         ws.send(
           JSON.stringify({

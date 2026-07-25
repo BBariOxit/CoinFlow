@@ -7,8 +7,9 @@ import { formatCurrency, timeAgo } from "@/lib/utils";
 import DataTable from "./DataTable";
 import { useState } from "react";
 import CoinHeader from "./CoinHeader";
+import { LivePriceContext } from "@/hooks/useLivePrice";
 
-const LiveDataWrapper = ({ children, coinId, poolId, coin, coinOHLCData }: LiveDataProps) => {
+const LiveDataWrapper = ({ children, coinId, poolId, coin, coinOHLCData, secondaryContent }: LiveDataProps) => {
   const [liveInterval, setLiveInterval] = useState<"1s" | "1m">("1s");
 
   const { trades, ohlcv, price } = useOkxWebSocket({ coinId, poolId, liveInterval });
@@ -56,7 +57,8 @@ const LiveDataWrapper = ({ children, coinId, poolId, coin, coinOHLCData }: LiveD
   ];
 
   return (
-    <section id="live-data-wrapper">
+    <LivePriceContext.Provider value={price?.usd}>
+    <section id="live-data-wrapper" className="primary">
       <CoinHeader
         name={coin.name}
         image={coin.image.large}
@@ -99,6 +101,9 @@ const LiveDataWrapper = ({ children, coinId, poolId, coin, coinOHLCData }: LiveD
 
       {children}
     </section>
+
+    {secondaryContent}
+    </LivePriceContext.Provider>
   );
 };
 

@@ -13,14 +13,15 @@ interface CandlestickChartProps {
   children?: React.ReactNode;
   mode?: "historical" | "live";
   initialPeriod?: Period;
-  liveInterval: "1s" | "1m";
-  setLiveInterval: (interval: "1s" | "1m") => void;
+  liveInterval?: "1s" | "1m";
+  setLiveInterval?: (interval: "1s" | "1m") => void;
 }
 
 interface ConverterProps {
   symbol: string;
   icon: string;
   priceList: Record<string, number>;
+  livePriceUsd?: number;
 }
 
 interface Ticker {
@@ -228,6 +229,7 @@ interface LiveDataProps {
   coin: CoinDetailsData;
   coinOHLCData?: OHLCData[];
   children?: React.ReactNode;
+  secondaryContent?: React.ReactNode;
 }
 
 interface LiveCoinHeaderProps {
