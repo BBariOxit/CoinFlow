@@ -122,10 +122,6 @@ export const useOkxWebSocket = ({
 
         setIsConnected(true);
 
-        setPrice(null);
-        setTrades([]);
-        setOhlcv(null);
-
         ws.send(
           JSON.stringify({
             op: "subscribe",
